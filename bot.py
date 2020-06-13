@@ -33,4 +33,4 @@ async def on_message(message):
         # Send the result of the funtion as a file
         await message.channel.send(file=discord.File(cert_gen(message.author.name)))
 
-client.run("NzIxMDI4OTAzODA3ODc3MTgw.XuTmXQ.AtdIomb7-qSoRBoHYZ6Z3Dk_P-4")
+client.run("NzIxMDI4OTAzODA3ODc3MTgw.XuTmvA.AxorsHjOS9rUlkambh3cp0Wr2Mc")
