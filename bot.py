@@ -33,8 +33,4 @@ async def on_message(message):
         # Send the result of the funtion as a file
         await message.channel.send(file=discord.File(cert_gen(message.author.name)))
 
-@commands.is_owner()
-async def shutdown(ctx):
-    await ctx.bot.logout()
-
-client.run("NzIxMDI4OTAzODA3ODc3MTgw.XuOkiQ.KioOHvNi1iARfykSb0qRD7WUgXg")
+client.run("NzIxMDI4OTAzODA3ODc3MTgw.XuRc_Q.36v9WYKAr_E4xPPextyHpWG9Hxw")
