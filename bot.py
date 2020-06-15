@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord.utils import get
 from PIL import Image, ImageDraw, ImageFont, ImageEnhance
 import os
 
@@ -28,12 +29,17 @@ client = discord.Client()
 # Function that's triggered when a message is sent.
 @client.event
 async def on_message(message):
+    print(str(message.content))
+    print(str(client.user.mention))
+
     # Specify the command to trigger the function to create the certificate
     if message.content.startswith("!cert"):
         # Send the result of the funtion as a file
         await message.channel.send(file=discord.File(cert_gen(message.author.name)))
 
-    if message.content.startswith("<:kek:719862783000444951>") != -1:
-        await message.channel.send("<:kek:719862783000444951>")
+    if message.content.startswith("hi") and client.user.mention == "<@721028903807877180>":
+        await message.channel.send("👋")
+
+# <:kek:714402314743447594>
 
 client.run("NzIxMDI4OTAzODA3ODc3MTgw.XuTmvA.AxorsHjOS9rUlkambh3cp0Wr2Mc")
