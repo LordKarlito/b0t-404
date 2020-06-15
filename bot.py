@@ -40,6 +40,9 @@ async def on_message(message):
     if message.content.startswith("hi") and client.user.mention == "<@721028903807877180>":
         await message.channel.send("👋")
 
+    if message.content.startswith("musta?") and client.user.mention == "<@721028903807877180>":
+        await message.channel.send("saks lang haha")
+
 # <:kek:714402314743447594>
 
 client.run("NzIxMDI4OTAzODA3ODc3MTgw.XuTmvA.AxorsHjOS9rUlkambh3cp0Wr2Mc")
