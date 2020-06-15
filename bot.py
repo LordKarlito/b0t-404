@@ -32,16 +32,20 @@ async def on_message(message):
     print(str(message.content))
     print(str(client.user.mention))
 
+    if message.author == client.user:
+        return
+
     # Specify the command to trigger the function to create the certificate
     if message.content.startswith("!cert"):
         # Send the result of the funtion as a file
         await message.channel.send(file=discord.File(cert_gen(message.author.name)))
 
-    if message.content.startswith("hi ") and client.user.mention == "<@721028903807877180>":
+    if message.content.startswith("hi <@!721028903807877180>"):
         await message.channel.send("👋")
 
-    if message.content.startswith("musta?") and client.user.mention == "<@721028903807877180>":
-        await message.channel.send("saks lang haha")
+    if message.content == "musta? <@!721028903807877180>":
+        response = "saks lang haha"
+        await message.channel.send(response)
 
 # <:kek:714402314743447594>
 
