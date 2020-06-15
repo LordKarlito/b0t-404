@@ -37,7 +37,7 @@ async def on_message(message):
         # Send the result of the funtion as a file
         await message.channel.send(file=discord.File(cert_gen(message.author.name)))
 
-    if message.content.startswith("hi") and client.user.mention == "<@721028903807877180>":
+    if message.content.startswith("hi ") and client.user.mention == "<@721028903807877180>":
         await message.channel.send("👋")
 
     if message.content.startswith("musta?") and client.user.mention == "<@721028903807877180>":
