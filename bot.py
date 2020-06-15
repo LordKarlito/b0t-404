@@ -33,7 +33,7 @@ async def on_message(message):
         # Send the result of the funtion as a file
         await message.channel.send(file=discord.File(cert_gen(message.author.name)))
 
-    if message.content.startswith(":kek:"):
+    if message.content.startswith("<:kek:714402314743447594>"):
         await message.channel.send("<:kek:714402314743447594>")
 
 client.run("NzIxMDI4OTAzODA3ODc3MTgw.XuTmvA.AxorsHjOS9rUlkambh3cp0Wr2Mc")
