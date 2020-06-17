@@ -41,11 +41,15 @@ async def on_message(message):
         await message.channel.send(file=discord.File(cert_gen(message.author.name)))
 
     if message.content.startswith("hi <@!721028903807877180>"):
+        
         await message.channel.send("👋")
 
     if message.content == "musta? <@!721028903807877180>":
         response = "saks lang haha"
         await message.channel.send(response)
+
+    if "magkano?" in message.content.lower() or "hm?" in message.content.lower():
+        await message.add_reaction("<:budol:722659667834306571>")
 
 # <:kek:714402314743447594>
 
