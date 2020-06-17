@@ -49,7 +49,7 @@ async def on_message(message):
         await message.channel.send(response)
 
     if "magkano?" in message.content.lower() or "hm?" in message.content.lower():
-        await message.add_reaction("<:budol:722659667834306571>")
+        await message.add_reaction("<:budol:715151627652300821>")
 
 # <:kek:714402314743447594>
 
