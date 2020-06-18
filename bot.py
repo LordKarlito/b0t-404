@@ -62,4 +62,4 @@ async def on_message(message):
         await message.add_reaction("<:budol:715151627652300821>")
 
 
-client.run("NzIxMDI4OTAzODA3ODc3MTgw.XuuoxQ.UeDNTGo8S_Ce-p6FV6Xxy8mB3Hg")
+client.run("NzIxMDI4OTAzODA3ODc3MTgw.XuuuMw.tRVhomgTUnxfFAyRqkrR-EOms6k")
