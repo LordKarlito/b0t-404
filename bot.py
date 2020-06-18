@@ -53,4 +53,4 @@ async def on_message(message):
 
 # <:kek:714402314743447594>
 
-client.run("NzIxMDI4OTAzODA3ODc3MTgw.XuTmvA.AxorsHjOS9rUlkambh3cp0Wr2Mc")
+client.run("YOUR KEY HERE")
