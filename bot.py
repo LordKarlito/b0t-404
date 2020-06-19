@@ -12,13 +12,13 @@ def cert_gen(params):
 
     # Dictionary format: {iteration: [base_x, base_y, font_face, font_size, string, paste_origin_x, paste_origin_y]}
     my_dict = {
-        1: [447, 30, "assets/verdana.ttf", 16, "This is to certify", 220, 118],
-        2: [447, 56, "assets/verdana.ttf", 40, params[3], 220, 158],
-        3: [447, 30, "assets/verdana.ttf", 16, "for attending", 220, 208],
+        1: [447, 30, "assets/Verdana.ttf", 16, "This is to certify", 220, 118],
+        2: [447, 56, "assets/Verdana.ttf", 40, params[3], 220, 158],
+        3: [447, 30, "assets/Verdana.ttf", 16, "for attending", 220, 208],
         4: [447, 63, "assets/Verdana_Bold.ttf", 40, params[2], 220, 252],
-        5: [447, 34, "assets/verdana.ttf", 16, "held online on {}".format(params[1]), 220, 305],
-        6: [447, 28, "assets/verdana.ttf", 16, "at the Tambayan 404 Discord Server", 220, 331],
-        7: [447, 20, "assets/verdana.ttf", 12, "This certificate was issued electronically. No signature required.", 220, 395]
+        5: [447, 34, "assets/Verdana.ttf", 16, "held online on {}".format(params[1]), 220, 305],
+        6: [447, 28, "assets/Verdana.ttf", 16, "at the Tambayan 404 Discord Server", 220, 331],
+        7: [447, 20, "assets/Verdana.ttf", 12, "This certificate was issued electronically. No signature required.", 220, 395]
     }
 
     # Create an image object
