@@ -99,6 +99,7 @@ async def on_message(message):
         params[1] = "{} {}, {}".format(date_object.strftime(
             '%B'), date_object.strftime('%d'), date_object.strftime('%Y'))
         if len(params) == 4:
+            await message.channel.send("yo")
             await message.channel.send(file=discord.File(cert_gen(params)))
         else:
             await message.channel.send("di ko gets. Try '!cert help'")
