@@ -1,12 +1,9 @@
 # This file may be used to create an environment using:
 # $ conda create --name <env> --file <this file>
 # platform: win-64
-asgiref=3.2.7=py_0
 async-timeout=3.0.1=pypi_0
 attrs=19.3.0=pypi_0
 autopep8=1.5.3=py_0
-ca-certificates=2020.1.1=0
-certifi=2020.4.5.2=py37_0
 cffi=1.14.0=py37h7a1dbc1_0
 chardet=3.0.4=py37_1003
 cryptography=2.9.2=py37h7a1dbc1_0
