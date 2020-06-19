@@ -104,4 +104,4 @@ async def on_message(message):
         else:
             await message.channel.send("di ko gets. Try '!cert help'")
 
-client.run("NzIxMDI4OTAzODA3ODc3MTgw.XuzT0w.5j8Shthl4I3Bh85tGXCqkmv9Ah4")
+client.run("NzIxMDI4OTAzODA3ODc3MTgw.XuzZ1A.wWIe7kH1GmDfQW1QTO5kgZY8xs4")
