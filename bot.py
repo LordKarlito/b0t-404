@@ -86,7 +86,7 @@ async def on_message(message):
         embed.add_field(
             name="Command", value="!cert gen", inline=False)
         embed.add_field(
-            name="Params", value="username(@username) date(mm/dd/yy) event_name", inline=False)
+            name="Params", value="date(mm/dd/yy), event_name, username(@username)", inline=False)
         embed.add_field(
             name="Example", value="!cert gen, 06/19/20, Watercooler 01, @Karlito", inline=False)
         await message.channel.send(embed=embed)
