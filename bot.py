@@ -1,57 +1,72 @@
 import discord
 from discord.ext import commands
-
+from datetime import datetime
 from discord.utils import get
 from PIL import Image, ImageDraw, ImageFont, ImageEnhance
 import os
 
 # Function to create a certificate with the user's name
-def cert_gen(name):
+
+
+def cert_gen(params):
+
+    # Dictionary format: {iteration: [base_x, base_y, font_face, font_size, string, paste_origin_x, paste_origin_y]}
+    my_dict = {
+        1: [447, 30, "assets/verdana.ttf", 16, "This is to certify", 220, 118],
+        2: [447, 56, "assets/verdana.ttf", 40, params[3], 220, 158],
+        3: [447, 30, "assets/verdana.ttf", 16, "for attending", 220, 208],
+        4: [447, 63, "assets/Verdana_Bold.ttf", 40, params[2], 220, 252],
+        5: [447, 34, "assets/verdana.ttf", 16, "held online on {}".format(params[1]), 220, 305],
+        6: [447, 28, "assets/verdana.ttf", 16, "at the Tambayan 404 Discord Server", 220, 331],
+        7: [447, 20, "assets/verdana.ttf", 12, "This certificate was issued electronically. No signature required.", 220, 395]
+    }
+
     # Create an image object
-    img = Image.open("images/WC_Cert.png")
+    img = Image.open("images/WC_blank.png")
 
-    # Creating the "canvas" where the text will be entered
-    text_container = Image.new('RGBA', (448, 90), (253,253,253))
+    for x in my_dict:
 
-    font = ImageFont.truetype("assets/BebasKai.ttf", 40)
+        # Creating the "canvas" where the text will be entered
+        # 220 118 667 148
+        container = Image.new(
+            'RGBA', (my_dict[x][0], my_dict[x][1]), (253, 253, 253))
+        font = ImageFont.truetype(my_dict[x][2], my_dict[x][3])
+        string = my_dict[x][4]
+        # Get font size and make some computations to make the text centered horizontally and vertically in the specified canvass size
+        w, h = font.getsize(string)
+        pointw = int((448 - w)/2)
+        pointh = int((30 - h)/2)
 
-    # Get font size and make some computations to make the text centered horizontally and vertically in the specified canvass size
-    w,h=font.getsize(str(name))
-    pointw = int((448 - w)/2)
-    pointh = int((95 - h)/2)
+        # Start "drawing" on the canvas
+        draw = ImageDraw.Draw(container)
 
-    # Start "drawing" on the canvas
-    text_draw = ImageDraw.Draw(text_container)
+        # The thing to draw, in this case, the text
+        draw.text((pointw, pointh), string, font=font, fill=(64, 64, 64))
 
-    # The thing to draw, in this case, the text
-    text_draw.text((pointw, pointh), name, font = font, fill="black")
-
-    # Paste the canvas on top of our original image
-    img.paste(text_container, (225,190))
+        # Paste the canvas on top of our original image
+        img.paste(container, (my_dict[x][5], my_dict[x][6]))
 
     # Create the output file
     img.save("images/output.png", "PNG")
     output_file = "images/output.png"
 
-    return(output_file)    
+    return(output_file)
+
 
 # Iniialize the client
 client = discord.Client()
 
 # Function that's triggered when a message is sent.
+
+
 @client.event
 async def on_message(message):
 
     if message.author == client.user:
         return
 
-    # Specify the command to trigger the function to create the certificate
-    if message.content.startswith("!cert"):
-        # Send the result of the funtion as a file
-        await message.channel.send(file=discord.File(cert_gen(message.author.name)))
-
     if message.content.startswith("hi <@!721028903807877180>"):
-        
+
         await message.channel.send("👋")
 
     if message.content == "musta? <@!721028903807877180>":
@@ -61,5 +76,31 @@ async def on_message(message):
     if "magkano?" in message.content.lower() or "hm?" in message.content.lower():
         await message.add_reaction("<:budol:715151627652300821>")
 
+    if "steam special" in message.content.lower():
+        await message.add_reaction("<:budol:715151627652300821>")
+
+    # Cert help
+    if message.content.startswith("!cert help"):
+        embed = discord.Embed(
+            title="Cert Generator", description="Certificate para mukang official lol", color=0x00ff00)
+        embed.add_field(
+            name="Command", value="!cert gen", inline=False)
+        embed.add_field(
+            name="Params", value="username(@username) date(mm/dd/yy) event_name", inline=False)
+        embed.add_field(
+            name="Example", value="!cert gen, 06/19/20, Watercooler 01, @Karlito", inline=False)
+        await message.channel.send(embed=embed)
+
+    # Cert generator
+    if message.content.startswith("!cert gen"):
+        params = message.content.split(', ')
+        params[3] = str(message.mentions[0].name).strip()
+        date_object = datetime.strptime(params[1], '%m/%d/%y')
+        params[1] = "{} {}, {}".format(date_object.strftime(
+            '%B'), date_object.strftime('%d'), date_object.strftime('%Y'))
+        if len(params) == 4:
+            await message.channel.send(file=discord.File(cert_gen(params)))
+        else:
+            await message.channel.send("di ko gets. Try '!cert help'")
 
 client.run("NzIxMDI4OTAzODA3ODc3MTgw.XuuuMw.tRVhomgTUnxfFAyRqkrR-EOms6k")
