@@ -18,7 +18,7 @@ def cert_gen(params):
         4: [447, 63, "assets/Verdana_Bold.ttf", 40, params[2], 220, 252],
         5: [447, 34, "assets/Verdana.ttf", 16, "held online on {}".format(params[1]), 220, 305],
         6: [447, 28, "assets/Verdana.ttf", 16, "at the Tambayan 404 Discord Server", 220, 331],
-        7: [447, 20, "assets/Verdana.ttf", 12, "This certificate was issued electronically. No signature required.", 220, 395]
+        7: [447, 30, "assets/Verdana.ttf", 12, "This certificate was issued electronically. No signature required.", 220, 395]
     }
 
     # Create an image object
