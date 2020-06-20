@@ -73,10 +73,10 @@ async def on_message(message):
         response = "saks lang haha"
         await message.channel.send(response)
 
-    if "magkano?" in message.content.lower() or "hm?" in message.content.lower():
+    if message.content == "magkano?" or message.content == "hm?":
         await message.add_reaction("<:budol:715151627652300821>")
 
-    if "steam special" in message.content.lower():
+    if message.content == "steam special":
         await message.add_reaction("<:budol:715151627652300821>")
 
     # Cert help
