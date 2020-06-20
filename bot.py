@@ -94,13 +94,21 @@ async def on_message(message):
     # Cert generator
     if message.content.startswith("!cert gen"):
         params = message.content.split(', ')
-        params[3] = str(message.mentions[0].name).strip()
-        date_object = datetime.strptime(params[1], '%m/%d/%y')
-        params[1] = "{} {}, {}".format(date_object.strftime(
-            '%B'), date_object.strftime('%d'), date_object.strftime('%Y'))
         if len(params) == 4:
-            await message.channel.send(file=discord.File(cert_gen(params)))
+            try:
+                
+                params[3] = str(message.mentions[0].name).strip()
+                date_object = datetime.strptime(params[1], '%m/%d/%y')
+
+                params[1] = "{} {}, {}".format(date_object.strftime(
+                '%B'), date_object.strftime('%d'), date_object.strftime('%Y'))
+                await message.channel.send(file=discord.File(cert_gen(params)))
+            except ValueError:
+                await message.channel.send("<:bugsNO:715101362207326208>")
+            except IndexError:
+                await message.channel.send("di ko gets. Try '!cert help'")
         else:
             await message.channel.send("di ko gets. Try '!cert help'")
+
 
 client.run("NzIxMDI4OTAzODA3ODc3MTgw.XuzfQw.HZmY5R95oaoBvXjkHX7hCCysANc")
