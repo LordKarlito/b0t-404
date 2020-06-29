@@ -110,5 +110,13 @@ async def on_message(message):
         else:
             await message.channel.send("di ko gets. Try '!cert help'")
 
+# When someone joins the server
+@client.event
+async def on_member_join(member):
+    channel = client.get_channel(714387677155295276)
+    directory = "714437490282332210"
+
+    await channel.send("Hi <@{}>! it's dangerous to go alone, take this: <#{}>".format(member.id, directory))
+
 
 client.run("NzIxMDI4OTAzODA3ODc3MTgw.XuzfQw.HZmY5R95oaoBvXjkHX7hCCysANc")
