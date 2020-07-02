@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from datetime import datetime
 from discord.utils import get
+import urllib.request
 from PIL import Image, ImageDraw, ImageFont, ImageEnhance
 import os
 
@@ -52,6 +53,28 @@ def cert_gen(params):
 
     return(output_file)
 
+def cynthiafy(avatar_url):
+
+    avatar_url = str(avatar_url)
+    avatar_url = avatar_url.replace(".webp?size=1024", ".png")
+    opener = urllib.request.build_opener()
+    opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+    urllib.request.install_opener(opener)
+
+    urllib.request.urlretrieve(str(avatar_url), 'images/user_avatar.png')
+    img = Image.open("images/user_avatar.png")
+
+    # dp1_image_bg = Image.new('RGBA', (146, 169), "white")
+
+    dp1 = Image.open("images/travelingcynth.png")
+    # img.paste(dp1_image_bg, (439, 41))
+    img.paste(dp1, (88, 0), dp1)
+
+    img.save("output.png", "PNG")
+    output_file = "output.png"
+
+    return (output_file)
+
 
 # Iniialize the client
 client = discord.Client()
@@ -64,6 +87,9 @@ async def on_message(message):
 
     if message.author == client.user:
         return
+
+    if message.content == "!cynthiafy":
+        await message.channel.send(file=discord.File(cynthiafy(message.author.avatar_url)))
 
     if message.content.startswith("hi <@!721028903807877180>"):
 
