@@ -88,6 +88,9 @@ async def on_message(message):
     if message.author == client.user:
         return
 
+    if message.content.lower() == "ha" or message.content.lower() == "ha?":
+        await message.add_reaction("<🌭>")
+
     if message.content == "!cynthiafy":
         await message.channel.send(file=discord.File(cynthiafy(message.author.avatar_url)))
 
