@@ -148,4 +148,4 @@ async def on_member_join(member):
     await channel.send("Hi <@{}>! it's dangerous to go alone, take this: <#{}>".format(member.id, directory))
 
 
-client.run("NzIxMDI4OTAzODA3ODc3MTgw.XuzfQw.HZmY5R95oaoBvXjkHX7hCCysANc")
+client.run("NzIxMDI4OTAzODA3ODc3MTgw.XwhvpA.p0GIt--cds2bOs5rwsAq6n_0dCA")
