@@ -88,7 +88,7 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content.lower() == "ha" or message.content.startswith("ha?".lower()):
+    if message.content.lower() == "ha" or message.content.lower().startswith("ha?"):
         await message.add_reaction("<🌭>")
 
     if message.content == "!cynthiafy":
