@@ -5,18 +5,26 @@ from discord.utils import get
 import urllib.request
 from PIL import Image, ImageDraw, ImageFont, ImageEnhance
 import os
+import textwrap
 
 # Function to create a certificate with the user's name
 
 
 def cert_gen(params):
 
+    wrapper = textwrap.TextWrapper(width=30)
+    word_list = wrapper.wrap(text=params[2])
+    caption_new = ''
+    for ii in word_list[:-1]:
+        caption_new = caption_new + ii + '\n'
+    caption_new += word_list[-1]
+
     # Dictionary format: {iteration: [base_x, base_y, font_face, font_size, string, paste_origin_x, paste_origin_y]}
     my_dict = {
         1: [447, 30, "assets/Verdana.ttf", 16, "This is to certify", 220, 118],
-        2: [447, 56, "assets/Verdana.ttf", 40, params[3], 220, 158],
+        2: [447, 56, "assets/Verdana.ttf", 30, params[3], 220, 158],
         3: [447, 30, "assets/Verdana.ttf", 16, "for attending", 220, 208],
-        4: [447, 63, "assets/Verdana_Bold.ttf", 40, params[2], 220, 252],
+        4: [447, 63, "assets/Verdana_Bold.ttf", 20, caption_new, 220, 252],
         5: [447, 34, "assets/Verdana.ttf", 16, "held online on {}".format(params[1]), 220, 305],
         6: [447, 28, "assets/Verdana.ttf", 16, "at the Tambayan 404 Discord Server", 220, 331],
         7: [447, 30, "assets/Verdana.ttf", 12, "This certificate was issued electronically. No signature required.", 220, 395]
@@ -41,8 +49,13 @@ def cert_gen(params):
         # Start "drawing" on the canvas
         draw = ImageDraw.Draw(container)
 
+        if x==4:
+            w, h = font.getsize(word_list[0])
+            pointw = int((448 - w)/2)
+            pointh = int((30 - h)/2)
+
         # The thing to draw, in this case, the text
-        draw.text((pointw, pointh), string, font=font, fill=(64, 64, 64))
+        draw.text((pointw, pointh), string, font=font, fill=(64, 64, 64), align = 'center')
 
         # Paste the canvas on top of our original image
         img.paste(container, (my_dict[x][5], my_dict[x][6]))
@@ -147,5 +160,7 @@ async def on_member_join(member):
 
     await channel.send("Hi <@{}>! it's dangerous to go alone, take this: <#{}>".format(member.id, directory))
 
+f = open('token.txt', 'r')
+token = f.read()
 
-client.run("NzIxMDI4OTAzODA3ODc3MTgw.XwhvpA.p0GIt--cds2bOs5rwsAq6n_0dCA")
+client.run(token)
