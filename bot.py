@@ -6,6 +6,7 @@ import urllib.request
 from PIL import Image, ImageDraw, ImageFont, ImageEnhance
 import os
 import textwrap
+import re
 
 # Function to create a certificate with the user's name
 
@@ -103,6 +104,9 @@ async def on_message(message):
 
     if message.content.lower() == "ha" or message.content.lower().startswith("ha?"):
         await message.add_reaction("<🌭>")
+
+    if re.search(".*[hH][aA]\?.*", message.content):
+        await message.add_reaction("<:hotdog:7b423a7d402beedfecb0bb81f9704953>")
 
     if message.content == "!cynthiafy":
         await message.channel.send(file=discord.File(cynthiafy(message.author.avatar_url)))
