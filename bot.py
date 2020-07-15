@@ -165,7 +165,5 @@ async def on_member_join(member):
 
     await channel.send("Hi <@{}>! it's dangerous to go alone, take this: <#{}>".format(member.id, directory))
 
-f = open('token.txt', 'r')
-token = f.read()
-
+token = os.getenv('token', 'default-token')
 client.run(token)
