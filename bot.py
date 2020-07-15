@@ -4,6 +4,7 @@ from datetime import datetime
 from discord.utils import get
 import urllib.request
 from PIL import Image, ImageDraw, ImageFont, ImageEnhance
+import re
 import os
 import textwrap
 import re
@@ -125,6 +126,9 @@ async def on_message(message):
     if message.content == "steam special":
         await message.add_reaction("<:budol:715151627652300821>")
 
+    if re.search(".*[hH][aA]\?.*", message.content):
+        await message.add_reaction("<:hotdog:7b423a7d402beedfecb0bb81f9704953>")
+
     # Cert help
     if message.content.startswith("!cert help"):
         embed = discord.Embed(
@@ -142,7 +146,7 @@ async def on_message(message):
         params = message.content.split(', ')
         if len(params) == 4:
             try:
-                
+
                 params[3] = str(message.mentions[0].name).strip()
                 date_object = datetime.strptime(params[1], '%m/%d/%y')
 
