@@ -173,4 +173,3 @@ async def on_member_join(member):
 
 token = os.getenv('token', 'default-token')
 client.run(token)
-
