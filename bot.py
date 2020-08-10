@@ -171,7 +171,6 @@ async def on_member_join(member):
 
     await channel.send("Hi <@{}>! it's dangerous to go alone, take this: <#{}>".format(member.id, directory))
 
-client.run("NzIxMDI4OTAzODA3ODc3MTgw.XuOkfg.iNnmqZ2rD0R6ZbAh9mj6XSLGgqE")
+token = os.getenv('token', 'default-token')
+client.run(token)
 
-# token = os.getenv('token', 'default-token')
-# client.run(token)
