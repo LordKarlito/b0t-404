@@ -1,4 +1,5 @@
 import discord
+import requests
 from discord.ext import commands
 from datetime import datetime
 from discord.utils import get
@@ -123,7 +124,7 @@ async def on_message(message):
     if message.content == "steam special":
         await message.add_reaction("<:budol:715151627652300821>")
 
-    if re.search(".*[hH][aA]\?.*", message.content):
+    if re.search(r".*[hH][aA]\?.*", message.content):
         await message.add_reaction("<:hotdog:7b423a7d402beedfecb0bb81f9704953>")
 
     # Cert help
@@ -157,6 +158,11 @@ async def on_message(message):
         else:
             await message.channel.send("di ko gets. Try '!cert help'")
 
+    if message.content.lower() == "!catfact":
+        url = 'https://cat-fact.herokuapp.com/facts/random?animal_type=cat&amount=1'
+        r = requests.get(url)
+        response_dict = r.json()
+        await message.channel.send(response_dict['text'])
 # When someone joins the server
 @client.event
 async def on_member_join(member):
@@ -165,5 +171,7 @@ async def on_member_join(member):
 
     await channel.send("Hi <@{}>! it's dangerous to go alone, take this: <#{}>".format(member.id, directory))
 
-token = os.getenv('token', 'default-token')
-client.run(token)
+client.run("NzIxMDI4OTAzODA3ODc3MTgw.XuOkfg.iNnmqZ2rD0R6ZbAh9mj6XSLGgqE")
+
+# token = os.getenv('token', 'default-token')
+# client.run(token)
