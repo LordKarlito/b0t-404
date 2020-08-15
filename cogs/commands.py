@@ -85,8 +85,8 @@ def cynthiafy(avatar_url):
     # img.paste(dp1_image_bg, (439, 41))
     img.paste(dp1, (88, 0), dp1)
 
-    img.save("output.png", "PNG")
-    output_file = "output.png"
+    img.save("images/output.png", "PNG")
+    output_file = "images/output.png"
 
     return (output_file)
 
