@@ -34,7 +34,7 @@ class eventsCog(commands.Cog):
     # When someone joins the server
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        channel = member.get_channel(714387677155295276)
+        channel = self.client.get_channel(714387677155295276)
         directory = "714437490282332210"
         await channel.send("Hi <@{}>! it's dangerous to go alone, take this: <#{}>".format(member.id, directory))
 
