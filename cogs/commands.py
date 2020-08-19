@@ -79,8 +79,6 @@ def cynthiafy(avatar_url):
     urllib.request.urlretrieve(str(avatar_url), 'images/user_avatar.png')
     img = Image.open("images/user_avatar.png")
 
-    # dp1_image_bg = Image.new('RGBA', (146, 169), "white")
-
     dp1 = Image.open("images/travelingcynth.png")
     # img.paste(dp1_image_bg, (439, 41))
     img.paste(dp1, (88, 0), dp1)
@@ -199,7 +197,7 @@ class commandsCog(commands.Cog, name="Commands"):
         await ctx.channel.send(image[0]['url'])
 
     @commands.command(brief="Latest Covid-19 Stats (Philippines only)", description="Get the latest COVID-19 Stats for the Philippines.")
-    @commands.cooldown(1, 5.0, commands.BucketType.member)
+    @commands.cooldown(1, 10.0, commands.BucketType.member)
     async def covidlatest(self, ctx):
         stats = jsonParse('https://api.apify.com/v2/key-value-stores/lFItbkoNDXKeSWBBA/records/LATEST?disableRedirect=true')
         await ctx.channel.send('**Total Cases:** {}\n**Total ACTIVE Cases:** {}\n**Recoveries:** {}\n**Deaths:** {}'.format(stats['infected'], stats['activeCases'], stats['recovered'], stats['deceased']))
@@ -214,10 +212,9 @@ class commandsCog(commands.Cog, name="Commands"):
         if isinstance(error, commands.CommandOnCooldown):
             await ctx.message.channel.send('Sorry! This command is on a cooldown. Try again in {:.2f}s'.format(error.retry_after))
 
-
     @commands.command(brief="Get a photo-op with CV", description="Get a photo-op with CV!")
     async def cynthiafy(self, ctx):
         await ctx.channel.send(file=discord.File(cynthiafy(ctx.author.avatar_url)))
-
+        
 def setup(client):
     client.add_cog(commandsCog(client))
