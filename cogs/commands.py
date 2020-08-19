@@ -192,12 +192,19 @@ class commandsCog(commands.Cog, name="Commands"):
         image = jsonParse('http://shibe.online/api/shibes?count=1&urls=true&httpsUrls=true')
         await ctx.channel.send(image[0])
 
-    @commands.command(brief="cat", description="Get a random cat\nThis commands has a 5 second cooldown.")
+    @commands.command(brief="Random cat pic", description="Get a random cat\nThis commands has a 5 second cooldown.")
     @commands.cooldown(1, 5.0, commands.BucketType.member)
     async def meow(self, ctx):
         image = jsonParse('https://api.thecatapi.com/v1/images/search')
         await ctx.channel.send(image[0]['url'])
 
+    @commands.command(brief="Latest Covid-19 Stats (Philippines only)", description="Get the latest COVID-19 Stats for the Philippines.")
+    @commands.cooldown(1, 5.0, commands.BucketType.member)
+    async def covidlatest(self, ctx):
+        stats = jsonParse('https://api.apify.com/v2/key-value-stores/lFItbkoNDXKeSWBBA/records/LATEST?disableRedirect=true')
+        await ctx.channel.send('**Total Cases:** {}\n**Total ACTIVE Cases:** {}\n**Recoveries:** {}\n**Deaths:** {}'.format(stats['infected'], stats['activeCases'], stats['recovered'], stats['deceased']))
+
+    @covidlatest.error
     @floof.error
     @woof.error
     @advice.error
