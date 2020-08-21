@@ -265,9 +265,12 @@ class commandsCog(commands.Cog, name="Commands"):
     async def cynthiafy(self, ctx):
         await ctx.channel.send(file=discord.File(cynthiafy(ctx.author.avatar_url)))
         
-    @commands.command(brief="Make a fake tweet", description="Make a fake tweet from the supreme leader's account")
+    @commands.command(brief="Make a fake tweet", description="Make a fake tweet from the supreme leader's account", hidden = 'true')
     async def tweeterte(self, ctx, *, tweet):
-        await ctx.channel.send(file=discord.File(tweeterte(tweet)))
+        try:
+            await ctx.channel.send(file=discord.File(tweeterte(tweet)))
+        except OSError:
+            await ctx.channel.send("Uh-oh, this command seems to be facing some technical difficulties. Sorry for the inconveniece :(")
 
 def setup(client):
     client.add_cog(commandsCog(client))
