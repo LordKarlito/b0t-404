@@ -1,6 +1,7 @@
 import discord
 import random
 from datetime import datetime
+from datetime import date
 from discord.ext import commands
 from discord.utils import get
 import urllib.request
@@ -10,6 +11,7 @@ import os
 import textwrap
 import re
 import requests
+import pytz
 
 def cert_gen(params):
 
@@ -87,6 +89,53 @@ def cynthiafy(avatar_url):
     output_file = "images/output.png"
 
     return (output_file)
+
+def tweeterte(tweet):
+
+    wrapper = textwrap.TextWrapper(width=50)
+    word_list = wrapper.wrap(text=tweet)
+    caption_new = ''
+    for ii in word_list[:-1]:
+        caption_new = caption_new + ii + '\n'
+    caption_new += word_list[-1]
+
+    img = Image.open("images/tweeterte.png")
+    container = Image.new('RGBA', (550, 99), (21,32,43))
+    font = ImageFont.truetype("assets/SEGOEUI.ttf", 24)
+    draw = ImageDraw.Draw(container)
+
+    draw.text((0, 0), caption_new, font=font,
+                  fill=(252, 252, 252), align='left')
+
+    img.paste(container, (12,72))
+
+    container2 = Image.new('RGBA', (550,18),(21,32,43))
+
+    font = ImageFont.truetype("assets/SEGOEUI.ttf", 14)
+    draw = ImageDraw.Draw(container2)
+    # date_object = datetime.strptime(str(date.today()), '%Y-%m-%d')
+    now = datetime.now()
+    timezone = pytz.timezone('Asia/Manila')
+    timenowstr = str(timezone.localize(now))[:-5]
+    
+    time_aware = datetime.strptime(timenowstr, '%Y-%m-%d %H:%M:%S.%f+')
+    print('============================================================================================================')
+    print(time_aware)
+
+    today = "{} {}, {}".format(time_aware.strftime('%b'), time_aware.strftime('%d'), time_aware.strftime('%Y'))
+    print(today)
+    current_time = '{}:{} {}'.format(time_aware.strftime('%H'), time_aware.strftime('%M'), now.strftime('%p'))
+    print(current_time)
+
+    draw.text((0,0), '{} · {} · '.format(current_time, today), font = font, fill=(136,153,166), align='left')
+    draw.text((168,0), 'Twitter for Android', font = font, fill=(27,149,224), align='left')
+
+    img.paste(container2, (11,176))
+
+    img.save("images/output.png",'PNG')
+    output_file = 'images/output.png'
+
+    return(output_file)
 
 def jsonParse(url):
     r = requests.get(url)
@@ -216,5 +265,9 @@ class commandsCog(commands.Cog, name="Commands"):
     async def cynthiafy(self, ctx):
         await ctx.channel.send(file=discord.File(cynthiafy(ctx.author.avatar_url)))
         
+    @commands.command(brief="Make a fake tweet", description="Make a fake tweet from the supreme leader's account")
+    async def tweeterte(self, ctx, *, tweet):
+        await ctx.channel.send(file=discord.File(tweeterte(tweet)))
+
 def setup(client):
     client.add_cog(commandsCog(client))
