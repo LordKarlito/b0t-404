@@ -101,7 +101,7 @@ def tweeterte(tweet):
 
     img = Image.open("images/tweeterte.png")
     container = Image.new('RGBA', (550, 99), (21,32,43))
-    font = ImageFont.truetype("assets/SEGOEU.TTF", 24)
+    font = ImageFont.truetype("assets/SEGOEUI.TTF", 24)
     draw = ImageDraw.Draw(container)
 
     draw.text((0, 0), caption_new, font=font,
