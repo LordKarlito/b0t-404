@@ -272,5 +272,11 @@ class commandsCog(commands.Cog, name="Commands"):
         except OSError:
             await ctx.channel.send("Uh-oh, this command seems to be facing some technical difficulties. Sorry for the inconveniece :(")
 
+    @commands.command(brief="Get link to steamdb's sales table", description="Get link to steamdb's sales table", hidden = 'false')
+    async def steamsales(self, ctx):
+        await ctx.channel.send('https://steamdb.info/sales/')
+
+    
+
 def setup(client):
     client.add_cog(commandsCog(client))
