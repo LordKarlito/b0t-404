@@ -90,6 +90,30 @@ def cynthiafy(avatar_url):
 
     return (output_file)
 
+def characterPain(avatar_url):
+
+    avatar_url = str(avatar_url)
+    avatar_url = avatar_url.replace(".webp?size=1024", ".png")
+    opener = urllib.request.build_opener()
+    opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+    urllib.request.install_opener(opener)
+
+    urllib.request.urlretrieve(str(avatar_url), 'images/user_avatar.png')
+    img = Image.open("images/pain.png")
+
+    
+    dp1 = Image.open("images/user_avatar.png")
+    dp1 = dp1.resize((352,398), Image.ANTIALIAS)
+    img.paste(dp1, (10, 102), dp1)
+
+    dp2 = Image.open("images/painCorners.png")
+    img.paste(dp2, (0,0), dp2)
+
+    img.save("images/output.png", "PNG")
+    output_file = "images/output.png"
+
+    return (output_file)
+
 def tweeterte(tweet):
 
     wrapper = textwrap.TextWrapper(width=50)
@@ -265,6 +289,10 @@ class commandsCog(commands.Cog, name="Commands"):
     async def cynthiafy(self, ctx):
         await ctx.channel.send(file=discord.File(cynthiafy(ctx.author.avatar_url)))
         
+    @commands.command(brief="Use this if you went through more pain than her (doesnt work with gif avatars :c)", description="Use this if you went through more pain than her (doesnt work with gif avatars :c)")
+    async def pain(self, ctx):
+        await ctx.channel.send(file=discord.File(characterPain(ctx.author.avatar_url)))
+
     @commands.command(brief="Make a fake tweet", description="Make a fake tweet from the supreme leader's account", hidden = 'true')
     async def tweeterte(self, ctx, *, tweet):
         try:
