@@ -99,14 +99,14 @@ def characterPain(avatar_url):
     urllib.request.install_opener(opener)
 
     urllib.request.urlretrieve(str(avatar_url), 'images/user_avatar.png')
-    img = Image.open("images/painBase.png")
-
+    img = Image.open("images/painBase.png").convert("RGBA")
     
-    dp1 = Image.open("images/user_avatar.png")
+    
+    dp1 = Image.open("images/user_avatar.png").convert("RGBA")
     dp1 = dp1.resize((352,398), Image.ANTIALIAS)
     img.paste(dp1, (10, 102), dp1)
 
-    dp2 = Image.open("images/painCorners.png")
+    dp2 = Image.open("images/painCorners.png").convert("RGBA")
     img.paste(dp2, (0,0), dp2)
 
     img.save("images/output.png", "PNG")
