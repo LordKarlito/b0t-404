@@ -99,7 +99,7 @@ def characterPain(avatar_url):
     urllib.request.install_opener(opener)
 
     urllib.request.urlretrieve(str(avatar_url), 'images/user_avatar.png')
-    img = Image.open("images/pain.png")
+    img = Image.open("images/painBase.png")
 
     
     dp1 = Image.open("images/user_avatar.png")
