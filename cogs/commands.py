@@ -82,8 +82,35 @@ def cynthiafy(avatar_url):
     img = Image.open("images/user_avatar.png")
 
     dp1 = Image.open("images/travelingcynth.png")
+    
+    img = img.resize((256,256))
     # img.paste(dp1_image_bg, (439, 41))
-    img.paste(dp1, (88, 0), dp1)
+    width, height = dp1.size
+    dp1 = dp1.resize((width*2, height*2))
+    img.paste(dp1, (176, 0), dp1)
+
+    img.save("images/output.png", "PNG")
+    output_file = "images/output.png"
+
+    return (output_file)
+
+def samify(avatar_url):
+
+    avatar_url = str(avatar_url)
+    avatar_url = avatar_url.replace(".webp?size=1024", ".png")
+    opener = urllib.request.build_opener()
+    opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+    urllib.request.install_opener(opener)
+
+    urllib.request.urlretrieve(str(avatar_url), 'images/user_avatar.png')
+    img = Image.open("images/user_avatar.png")
+
+    img = img.resize((256,256))
+
+    dp1 = Image.open("images/sam_transparent.png")
+    # img.paste(dp1_image_bg, (439, 41))
+    dp1 = dp1.resize((147,121))
+    img.paste(dp1, (0, 135), dp1)
 
     img.save("images/output.png", "PNG")
     output_file = "images/output.png"
@@ -233,6 +260,14 @@ class commandsCog(commands.Cog, name="Commands"):
         else:
             await ctx.channel.send("di ko gets. Try again plz")
 
+    @commands.command(brief="Returns a random taco recipe", description="Returns a random taco recipe")
+    @commands.cooldown(1, 5.0, commands.BucketType.member)
+    async def taco(self, ctx):
+        recipe = jsonParse('http://taco-randomizer.herokuapp.com/random/?full-taco=true')
+        # recipeParsed = 
+        
+        await ctx.channel.send("```{}```".format(recipe['base_layer']['recipe']))
+
     @commands.command(brief="Returns a random cat fact", description="Returns a random cat fact")
     @commands.cooldown(1, 5.0, commands.BucketType.member)
     async def catfact(self, ctx):
@@ -288,7 +323,11 @@ class commandsCog(commands.Cog, name="Commands"):
     @commands.command(brief="Get a photo-op with CV", description="Get a photo-op with CV!")
     async def cynthiafy(self, ctx):
         await ctx.channel.send(file=discord.File(cynthiafy(ctx.author.avatar_url)))
-        
+
+    @commands.command(brief="Add a squatting tanod to your picture", description="Add a squatting tanod to your avatar")
+    async def samify(self, ctx):
+        await ctx.channel.send(file=discord.File(samify(ctx.author.avatar_url))) 
+
     @commands.command(brief="Use this if you went through more pain than her (doesnt work with gif avatars :c)", description="Use this if you went through more pain than her (doesnt work with gif avatars :c)")
     async def pain(self, ctx):
         await ctx.channel.send(file=discord.File(characterPain(ctx.author.avatar_url)))
