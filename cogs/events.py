@@ -31,12 +31,5 @@ class eventsCog(commands.Cog):
         if re.search(r".*[hH][aA]\?.*", message.content):
             await message.add_reaction("<:hotdog:7b423a7d402beedfecb0bb81f9704953>")
 
-    # When someone joins the server
-    @commands.Cog.listener()
-    async def on_member_join(self, member):
-        channel = self.client.get_channel(714387677155295276)
-        directory = "714437490282332210"
-        await channel.send("{} Hi <@{}>! it's dangerous to go alone, take this: <#{}> {}".format(self.client.get_emoji(763406163395084288),member.id, directory,self.client.get_emoji(763406163395084288)))
-
 def setup(client):
     client.add_cog(eventsCog(client))

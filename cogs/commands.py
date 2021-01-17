@@ -12,6 +12,10 @@ import textwrap
 import re
 import requests
 import pytz
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
+
+bot = discord.Client()
 
 def cert_gen(params):
 
@@ -141,6 +145,25 @@ def characterPain(avatar_url):
 
     return (output_file)
 
+client_id = os.getenv('SPOTIFY_CLIENT_ID', 'default-token')
+client_secret = os.getenv('SPOTIFY_CLIENT_SECRET', 'default-token')
+
+def songsearch(query):
+    sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=client_id,
+                                                               client_secret=client_secret))
+
+    resultList = []
+
+    results = sp.search(q=query, limit=5)
+    for idx, track in enumerate(results['tracks']['items']):
+        resultList.append({
+            "title": track['name'],
+            "artist": track['artists'][0]['name'],
+            "external_url": track['external_urls']['spotify'],
+            "type": track['type']
+        })
+    return resultList
+
 def tweeterte(tweet):
 
     wrapper = textwrap.TextWrapper(width=50)
@@ -237,21 +260,21 @@ class commandsCog(commands.Cog, name="Commands"):
     @commands.command(brief="Generates a certificate", description=    
         """
         Generates a certificate for participating in Watercooler sessions!
-        >certgen (mm/dd/yy), (Name of event), @user(don't forget to tag the user)
-        >certgen 08/15/20, This is a test certificate, @LordKarlito
+        >certgen (mm/dd/yy), (Name of event)
+        >certgen 08/15/20, This is a test certificate
         """)
     async def certgen(self, ctx, *, args):
         # Cert generator
         params = args.split(', ')
-        print(params)
+
+        params.append(ctx.author.display_name)
         if len(params) == 3:
             try:
 
-                params[2] = str(ctx.message.mentions[0].name).strip()
+                params[2] = str(ctx.author.display_name).strip()
                 date_object = datetime.strptime(params[0], '%m/%d/%y')
                 params[0] = "{} {}, {}".format(date_object.strftime(
                         '%B'), date_object.strftime('%d'), date_object.strftime('%Y'))
-                print(params[0])
                 await ctx.channel.send(file=discord.File(cert_gen(params)))
             except ValueError:
                 await ctx.channel.send("<:bugsNO:715101362207326208>")
@@ -264,7 +287,6 @@ class commandsCog(commands.Cog, name="Commands"):
     @commands.cooldown(1, 5.0, commands.BucketType.member)
     async def taco(self, ctx):
         recipe = jsonParse('http://taco-randomizer.herokuapp.com/random/?full-taco=true')
-        # recipeParsed = 
         
         await ctx.channel.send("```{}```".format(recipe['base_layer']['recipe']))
 
@@ -310,12 +332,75 @@ class commandsCog(commands.Cog, name="Commands"):
         stats = jsonParse('https://api.apify.com/v2/key-value-stores/lFItbkoNDXKeSWBBA/records/LATEST?disableRedirect=true')
         await ctx.channel.send('**Total Cases:** {}\n**Total ACTIVE Cases:** {}\n**Recoveries:** {}\n**Deaths:** {}'.format(stats['infected'], stats['activeCases'], stats['recovered'], stats['deceased']))
 
+    @commands.command(brief="Search for a spotify song to preview", description="Returns a list of songs based on a search query. User will be given a choice on which result will be previewed", hidden = 'false')
+    @commands.cooldown(1, 5.0, commands.BucketType.member)
+    async def songsearch(self, ctx, *, query):
+        spotifySearchResults = songsearch(query)
+
+        msg = """
+Alright {}, please select the song you want previewed. \n
+1️⃣ - {} by {}
+2️⃣ - {} by {}
+3️⃣ - {} by {}
+4️⃣ - {} by {}
+5️⃣ - {} by {}
+            """.format(ctx.author.display_name, 
+                        spotifySearchResults[0]['title'], spotifySearchResults[0]['artist'], 
+                        spotifySearchResults[1]['title'], spotifySearchResults[1]['artist'],
+                        spotifySearchResults[2]['title'], spotifySearchResults[2]['artist'],
+                        spotifySearchResults[3]['title'], spotifySearchResults[3]['artist'],
+                        spotifySearchResults[4]['title'], spotifySearchResults[4]['artist'])
+
+        embed = discord.Embed(title='')
+        embed.add_field(name='Search Results', value = msg, inline=False)
+            
+        message = await ctx.channel.send(embed=embed)
+
+        emojis = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]
+
+        for emoji in emojis:
+            await message.add_reaction(emoji)
+
+        def check(reaction, user):
+            print("""reaction.message = {}
+message = {}
+reaction_emoji = {}
+emojis = {}
+user = {}""".format(reaction.message, message, reaction.emoji, emojis, user))
+            return ((reaction.message.id == message.id) and (reaction.emoji in emojis) and (user == ctx.author))
+
+        try:
+            reaction, user =  await self.client.wait_for('reaction_add', timeout=10.0, check=check)
+        except ascyncio.TimeoutError:
+            await self.client.delete_message(message)
+        else:
+            
+            if reaction.emoji == "1️⃣":
+                await message.delete()
+                await ctx.channel.send("{}".format(spotifySearchResults[0]['external_url']))
+            elif reaction.emoji == "2️⃣":
+                await message.delete()
+                await ctx.channel.send("{}".format(spotifySearchResults[1]['external_url']))
+            elif reaction.emoji == "3️⃣":
+                await message.delete()
+                await ctx.channel.send("{}".format(spotifySearchResults[2]['external_url']))
+            elif reaction.emoji == "4️⃣":
+                await message.delete()
+                await ctx.channel.send("{}".format(spotifySearchResults[3]['external_url']))
+            elif reaction.emoji == "5️⃣":
+                await message.delete()
+                await ctx.channel.send("{}".format(spotifySearchResults[4]['external_url']))
+   
+    
+
     @covidlatest.error
     @floof.error
     @woof.error
     @advice.error
     @catfact.error
     @shibo.error
+    @songsearch.error
+
     async def test_error(self, ctx, error):
         if isinstance(error, commands.CommandOnCooldown):
             await ctx.message.channel.send('Sorry! This command is on a cooldown. Try again in {:.2f}s'.format(error.retry_after))
@@ -342,8 +427,6 @@ class commandsCog(commands.Cog, name="Commands"):
     @commands.command(brief="Get link to steamdb's sales table", description="Get link to steamdb's sales table", hidden = 'false')
     async def steamsales(self, ctx):
         await ctx.channel.send('https://steamdb.info/sales/')
-
-    
 
 def setup(client):
     client.add_cog(commandsCog(client))
