@@ -332,7 +332,7 @@ class commandsCog(commands.Cog, name="Commands"):
         stats = jsonParse('https://api.apify.com/v2/key-value-stores/lFItbkoNDXKeSWBBA/records/LATEST?disableRedirect=true')
         await ctx.channel.send('**Total Cases:** {}\n**Total ACTIVE Cases:** {}\n**Recoveries:** {}\n**Deaths:** {}'.format(stats['infected'], stats['activeCases'], stats['recovered'], stats['deceased']))
 
-    @commands.command(brief="Search for a spotify song to preview", description="Returns a list of songs based on a search query. User will be given a choice on which result will be previewed", hidden = 'false')
+    @commands.command(brief="Search for a spotify song to preview", description="Returns a list of songs based on a search query. Just react with the emoji that your song is assigned to. User is given 15 seconds to make a decision.")
     @commands.cooldown(1, 5.0, commands.BucketType.member)
     async def songsearch(self, ctx, *, query):
         spotifySearchResults = songsearch(query)
@@ -370,7 +370,7 @@ user = {}""".format(reaction.message, message, reaction.emoji, emojis, user))
             return ((reaction.message.id == message.id) and (reaction.emoji in emojis) and (user == ctx.author))
 
         try:
-            reaction, user =  await self.client.wait_for('reaction_add', timeout=10.0, check=check)
+            reaction, user =  await self.client.wait_for('reaction_add', timeout=15.0, check=check)
         except ascyncio.TimeoutError:
             await self.client.delete_message(message)
         else:
