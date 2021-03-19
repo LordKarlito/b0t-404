@@ -1,5 +1,5 @@
 discord-py==1.4.1
-pillow==7.2.0
+pillow==8.1.1
 requests==2.24.0
 pytz  
 spotipy
